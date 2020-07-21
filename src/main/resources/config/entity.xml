@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <import resource="classpath:de/dailab/jiactng/agentcore/conf/AgentNode.xml"/>
+    <import resource="classpath:de/dailab/jiactng/agentcore/conf/Agent.xml"/>
+    <import resource="classpath:de/dailab/jiactng/agentcore/conf/JMSMessaging.xml"/>
+    <import resource="classpath:GatewayConfig.xml" />
+
+    <bean name="RegistrationNode" parent="GatewayNode">
+        <property name="agents">
+            <list>
+                <ref bean="RegistrationAgent"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean name="RegistrationAgent" parent="SimpleAgent">
+        <property name="agentBeans">
+            <list>
+                <ref bean="RegistrationBean"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean name="RegistrationBean" class="de.gtarc.chariot.registeragent.RegistrationBean">
+        <property name="logLevel" value="INFO"/>
+        <!-- MQTT settings-->
+<!--        <property name ="host" value="tcp://130.149.232.235:1883" />-->
+        <property name ="host" value="tcp://localhost:1883" />
+        <property name ="username" value="plbwvpgf" />
+        <property name ="password" value="mJTPb6z12Bag" />
+        <property name ="clientId" value="registerAgent" />
+        <!-- KMS URL-->
+<!--        <property name="kmsURL" value="http://chariot-km.dai-lab.de:8080/v1/"/>-->
+        <property name="kmsURL" value="http://localhost:8080/v1/"/>
+        <!-- Entity UUID -->
+        <property name ="entityId" value="fd2b9f74-7eba-43d5-b740-144bfa102d38"/>
+
+    </bean>
+</beans>

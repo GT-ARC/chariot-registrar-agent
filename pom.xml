@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>de.gtarc.chariot</groupId>
+    <artifactId>registerAgent</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <repositories>
+        <repository>
+            <id>dai-open</id>
+            <name>DAI Open Repository</name>
+            <url>http://repositories.dai-labor.de/extern/content/repositories/dai-open/</url>
+        </repository>
+    </repositories>
+
+    <properties>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <chariotapi.version>0.1.7</chariotapi.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>de.dailab.jiactng</groupId>
+            <artifactId>agentCore</artifactId>
+            <version>5.2.4</version>
+        </dependency>
+
+        <dependency>
+		    <groupId>de.gtarc.chariot</groupId>
+            <artifactId>registrationAPI</artifactId>
+            <version>${chariotapi.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-log4j12</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>log4j</groupId>
+                    <artifactId>log4j</artifactId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>slf4j-api</artifactId>
+                    <groupId>org.slf4j</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>slf4j-simple</artifactId>
+                    <groupId>org.slf4j</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>log4j-over-slf4j</artifactId>
+                    <groupId>org.slf4j</groupId>
+                </exclusion>
+            </exclusions> 
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+      		  <plugin>
+                  <groupId>org.apache.maven.plugins</groupId>
+                  <artifactId>maven-compiler-plugin</artifactId>
+                  <configuration>
+                          <source>1.8</source>
+                          <target>1.8</target>
+                  </configuration>
+          </plugin>
+            <plugin>
+                <!-- creating start scripts -->
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>appassembler-maven-plugin</artifactId>
+                <version>2.0.0</version>
+                <executions>
+                    <execution>
+                        <id>generate start scripts</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>assemble</goal>
+                        </goals>
+                        <configuration>
+                            <extraJvmArguments>-Xms512m -Xmx1024m</extraJvmArguments>
+                            <repositoryLayout>flat</repositoryLayout>
+                            <useWildcardClassPath>true</useWildcardClassPath>
+                            <configurationSourceDirectory>src/main/resources</configurationSourceDirectory>
+                            <copyConfigurationDirectory>true</copyConfigurationDirectory>
+                            <programs>
+                                <program>
+                                    <mainClass>de.gtarc.chariot.registeragent.StartRegistrationService</mainClass>
+                                    <name>startRegistrarAgent</name>
+                                </program>
+                            </programs>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
